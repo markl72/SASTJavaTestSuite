@@ -14,7 +14,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 @WebServlet(value="/sqli-00/BenchmarkTest00008")
-public class SQLi_concat_validated extends HttpServlet {
+public class SQLi_concat_weakvalidated_noexception_2params extends HttpServlet {
 	
 	private static final long serialVersionUID = 1L;
 	
@@ -29,13 +29,14 @@ public class SQLi_concat_validated extends HttpServlet {
 		response.setContentType("text/html;charset=UTF-8");
 		
 		String param = request.getParameter("param1");
+		String param2 = request.getParameter("param2");
 		
 		// URL Decode the header value since req.getHeader() doesn't. Unlike req.getParameter().
 		param = java.net.URLDecoder.decode(param, "UTF-8");
 
 		// Validate input
-		Pattern validPattern = Pattern.compile("^[0-9]{4}$");
-		if (!validPattern.matcher( param ).matches())  {
+		Pattern validPattern = Pattern.compile(".*");
+		if (!validPattern.matcher( param2 ).matches())  {
 			//throw new ServletException( "Failed validation rules.");
 		}
 

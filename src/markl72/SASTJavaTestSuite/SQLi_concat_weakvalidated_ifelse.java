@@ -14,7 +14,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 @WebServlet(value="/sqli-00/BenchmarkTest00008")
-public class SQLi_concat_validated extends HttpServlet {
+public class SQLi_concat_weakvalidated_ifelse extends HttpServlet {
 	
 	private static final long serialVersionUID = 1L;
 	
@@ -34,28 +34,27 @@ public class SQLi_concat_validated extends HttpServlet {
 		param = java.net.URLDecoder.decode(param, "UTF-8");
 
 		// Validate input
-		Pattern validPattern = Pattern.compile("^[0-9]{4}$");
-		if (!validPattern.matcher( param ).matches())  {
-			//throw new ServletException( "Failed validation rules.");
-		}
+		Pattern validPattern = Pattern.compile(".*");
+		if (validPattern.matcher( param ).matches())  {
 
-		try {
+			try {
 			
-			Class.forName("com.mysql.jdbc.Driver");  
-			Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/sonoo","root","root");  
+				Class.forName("com.mysql.jdbc.Driver");  
+				Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/sonoo","root","root");  
 						
-			String sql = "select * from emp where column1 = " + param;
-			PreparedStatement pstmt = connection.prepareStatement( sql );
+				String sql = "select * from emp where column1 = " + param;
+				PreparedStatement pstmt = connection.prepareStatement( sql );
            
-            ResultSet rs = pstmt.executeQuery(sql);  
+				ResultSet rs = pstmt.executeQuery(sql);  
             
-            while(rs.next()) {
-            	System.out.println(rs.getInt(1)+"  "+rs.getString(2)+"  "+rs.getString(3));
-            }
-            connection.close();  
-        } 
-		catch(Exception e){ 
-			System.out.println(e);
-		}  		
+				while(rs.next()) {
+					System.out.println(rs.getInt(1)+"  "+rs.getString(2)+"  "+rs.getString(3));
+				}
+				connection.close();  
+			} 
+			catch(Exception e){ 
+				System.out.println(e);
+			}
+		}
 	}
 }

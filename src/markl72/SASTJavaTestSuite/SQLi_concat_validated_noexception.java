@@ -14,7 +14,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 @WebServlet(value="/sqli-00/BenchmarkTest00008")
-public class SQLi_concat_validated extends HttpServlet {
+public class SQLi_concat_validated_noexception extends HttpServlet {
 	
 	private static final long serialVersionUID = 1L;
 	
@@ -36,7 +36,7 @@ public class SQLi_concat_validated extends HttpServlet {
 		// Validate input
 		Pattern validPattern = Pattern.compile("^[0-9]{4}$");
 		if (!validPattern.matcher( param ).matches())  {
-			//throw new ServletException( "Failed validation rules.");
+		
 		}
 
 		try {
