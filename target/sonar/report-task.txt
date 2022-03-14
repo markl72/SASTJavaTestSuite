@@ -1,7 +1,0 @@
-organization=markl72
-projectKey=markl72_SASTJavaTestSuite
-serverUrl=https://sonarcloud.io
-serverVersion=8.0.0.27481
-dashboardUrl=https://sonarcloud.io/dashboard?id=markl72_SASTJavaTestSuite
-ceTaskId=AX-G4I92nTk2GEVJ9QOS
-ceTaskUrl=https://sonarcloud.io/api/ce/task?id=AX-G4I92nTk2GEVJ9QOS
