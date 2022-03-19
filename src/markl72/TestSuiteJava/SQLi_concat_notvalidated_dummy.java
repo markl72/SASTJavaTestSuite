@@ -1,4 +1,4 @@
-package markl72.SASTJavaTestSuite;
+package markl72.TestSuiteJava;
 
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -15,7 +15,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 @WebServlet(value="/sqli-00/BenchmarkTest00008")
-public class SQLi_concat_notvalidated extends HttpServlet {
+public class SQLi_concat_notvalidated_dummy extends HttpServlet {
 	
 	private static final long serialVersionUID = 1L;
 	
@@ -32,13 +32,15 @@ public class SQLi_concat_notvalidated extends HttpServlet {
         
 		String param = request.getParameter("param1");
 		
+		if(param.equals("hello")) {
+			// do nothing
+		}
+		
 		try {
 			
 			Class.forName("com.mysql.jdbc.Driver");  
 			Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/sonoo","root","password01");  
-				
-			
-			
+						
 			String sql = "select * from emp where column1 = " + param;
 			PreparedStatement pstmt = connection.prepareStatement( sql );
            

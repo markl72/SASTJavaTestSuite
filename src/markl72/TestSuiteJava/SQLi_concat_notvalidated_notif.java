@@ -1,4 +1,4 @@
-package markl72.SASTJavaTestSuite;
+package markl72.TestSuiteJava;
 
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -15,7 +15,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 @WebServlet(value="/sqli-00/BenchmarkTest00008")
-public class SQLi_concat_notvalidated_wildcard extends HttpServlet {
+public class SQLi_concat_notvalidated_notif extends HttpServlet {
 	
 	private static final long serialVersionUID = 1L;
 	
@@ -30,32 +30,30 @@ public class SQLi_concat_notvalidated_wildcard extends HttpServlet {
 		response.setContentType("text/html;charset=UTF-8");
         PrintWriter out = response.getWriter();
         
-        
 		String param = request.getParameter("param1");
-
-		// Validate input
-		Pattern validPattern = Pattern.compile("^.*$");
-		if (!validPattern.matcher( param ).matches())  {
-			throw new ServletException( "Failed validation rules.");
-		}
+		String param2 = request.getParameter("param2");
 		
-		try {
+		if(!param.equals("hello")) {
+	
+		
+			try {
 			
-			Class.forName("com.mysql.jdbc.Driver");  
-			Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/sonoo","root","password01");  
+				Class.forName("com.mysql.jdbc.Driver");  
+				Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/","root","password01");  
 						
-			String sql = "select * from emp where column1 = " + param;
-			PreparedStatement pstmt = connection.prepareStatement( sql );
+				String sql = "select * from emp where column1 = " + param;
+				PreparedStatement pstmt = connection.prepareStatement( sql );
            
-            ResultSet rs = pstmt.executeQuery(sql);  
+				ResultSet rs = pstmt.executeQuery(sql);  
             
-            while(rs.next()) {
-            	out.println(rs.getInt(1)+"  "+rs.getString(2)+"  "+rs.getString(3));
-            }
-            connection.close();  
-        } 
-		catch(Exception e){ 
-			System.out.println(e);
-		}  		
+				while(rs.next()) {
+					out.println(rs.getInt(1)+"  "+rs.getString(2)+"  "+rs.getString(3));
+				}
+				connection.close();  
+			} 
+			catch(Exception e){ 
+				System.out.println(e);
+			}  		
+		}
 	}
 }

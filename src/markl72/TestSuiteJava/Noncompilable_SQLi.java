@@ -16,7 +16,7 @@
 * @created 2015
 */
 
-package markl72.SASTJavaTestSuite;
+package markl72.TestSuiteJava;
 
 import java.io.IOException;
 

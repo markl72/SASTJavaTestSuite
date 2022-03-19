@@ -1,4 +1,4 @@
-package markl72.SASTJavaTestSuite;
+package markl72.TestSuiteJava;
 
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -15,7 +15,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 @WebServlet(value="/sqli-00/BenchmarkTest00008")
-public class SQLi_concat_notvalidated_dummy extends HttpServlet {
+public class SQLi_concat_notvalidated_wildcard extends HttpServlet {
 	
 	private static final long serialVersionUID = 1L;
 	
@@ -30,10 +30,13 @@ public class SQLi_concat_notvalidated_dummy extends HttpServlet {
 		response.setContentType("text/html;charset=UTF-8");
         PrintWriter out = response.getWriter();
         
+        
 		String param = request.getParameter("param1");
-		
-		if(param.equals("hello")) {
-			// do nothing
+
+		// Validate input
+		Pattern validPattern = Pattern.compile("^.*$");
+		if (!validPattern.matcher( param ).matches())  {
+			throw new ServletException( "Failed validation rules.");
 		}
 		
 		try {

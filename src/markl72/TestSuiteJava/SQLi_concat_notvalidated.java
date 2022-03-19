@@ -1,4 +1,4 @@
-package markl72.SASTJavaTestSuite;
+package markl72.TestSuiteJava;
 
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -15,7 +15,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 @WebServlet(value="/sqli-00/BenchmarkTest00008")
-public class SQLi_concat_notvalidated_notif extends HttpServlet {
+public class SQLi_concat_notvalidated extends HttpServlet {
 	
 	private static final long serialVersionUID = 1L;
 	
@@ -31,29 +31,26 @@ public class SQLi_concat_notvalidated_notif extends HttpServlet {
         PrintWriter out = response.getWriter();
         
 		String param = request.getParameter("param1");
-		String param2 = request.getParameter("param2");
 		
-		if(!param.equals("hello")) {
-	
-		
-			try {
+		try {
 			
-				Class.forName("com.mysql.jdbc.Driver");  
-				Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/","root","password01");  
-						
-				String sql = "select * from emp where column1 = " + param;
-				PreparedStatement pstmt = connection.prepareStatement( sql );
+			Class.forName("com.mysql.jdbc.Driver");  
+			Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/sonoo","root","password01");  
+				
+			
+			
+			String sql = "select * from emp where column1 = " + param;
+			PreparedStatement pstmt = connection.prepareStatement( sql );
            
-				ResultSet rs = pstmt.executeQuery(sql);  
+            ResultSet rs = pstmt.executeQuery(sql);  
             
-				while(rs.next()) {
-					out.println(rs.getInt(1)+"  "+rs.getString(2)+"  "+rs.getString(3));
-				}
-				connection.close();  
-			} 
-			catch(Exception e){ 
-				System.out.println(e);
-			}  		
-		}
+            while(rs.next()) {
+            	out.println(rs.getInt(1)+"  "+rs.getString(2)+"  "+rs.getString(3));
+            }
+            connection.close();  
+        } 
+		catch(Exception e){ 
+			System.out.println(e);
+		}  		
 	}
 }

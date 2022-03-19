@@ -1,4 +1,4 @@
-package markl72.SASTJavaTestSuite;
+package markl72.TestSuiteJava;
 
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -15,7 +15,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 @WebServlet(value="/sqli-00/BenchmarkTest00008")
-public class SQLi_concat_notvalidated_if extends HttpServlet {
+public class SQLi_parameterized_notvalidated extends HttpServlet {
 	
 	private static final long serialVersionUID = 1L;
 	
@@ -31,19 +31,15 @@ public class SQLi_concat_notvalidated_if extends HttpServlet {
         PrintWriter out = response.getWriter();
         
 		String param = request.getParameter("param1");
-		String param2 = request.getParameter("param2");
-		
-		if(param.equals("hello")) {
-			// do nothing
-		}
 		
 		try {
 			
 			Class.forName("com.mysql.jdbc.Driver");  
 			Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/sonoo","root","password01");  
 						
-			String sql = "select * from emp where column1 = " + param;
+			String sql = "select * from emp where column1 = ?";
 			PreparedStatement pstmt = connection.prepareStatement( sql );
+			pstmt.setString(1, param);
            
             ResultSet rs = pstmt.executeQuery(sql);  
             
