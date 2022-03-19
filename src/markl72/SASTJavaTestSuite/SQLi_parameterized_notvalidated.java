@@ -1,6 +1,7 @@
 package markl72.SASTJavaTestSuite;
 
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
@@ -25,32 +26,25 @@ public class SQLi_parameterized_notvalidated extends HttpServlet {
 
 	@Override
 	public void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// some code
+	
 		response.setContentType("text/html;charset=UTF-8");
-		
+        PrintWriter out = response.getWriter();
+        
 		String param = request.getParameter("param1");
 		
-		// URL Decode the header value since req.getHeader() doesn't. Unlike req.getParameter().
-		param = java.net.URLDecoder.decode(param, "UTF-8");
-
-		// Validate input
-		//Pattern validPattern = Pattern.compile("^[0-9]{4}$");
-		//if (!validPattern.matcher( param ).matches())  {
-		//	throw new ServletException( "Failed validation rules.");
-		//}
-
 		try {
 			
 			Class.forName("com.mysql.jdbc.Driver");  
-			Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/sonoo","root","root");  
+			Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/sonoo","root","password01");  
 						
 			String sql = "select * from emp where column1 = ?";
 			PreparedStatement pstmt = connection.prepareStatement( sql );
+			pstmt.setString(1, param);
            
             ResultSet rs = pstmt.executeQuery(sql);  
             
             while(rs.next()) {
-            	System.out.println(rs.getInt(1)+"  "+rs.getString(2)+"  "+rs.getString(3));
+            	out.println(rs.getInt(1)+"  "+rs.getString(2)+"  "+rs.getString(3));
             }
             connection.close();  
         } 

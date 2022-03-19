@@ -1,6 +1,7 @@
 package markl72.SASTJavaTestSuite;
 
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
@@ -14,7 +15,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 @WebServlet(value="/sqli-00/BenchmarkTest00008")
-public class SQLi_concat_weakvalidated_ifelse extends HttpServlet {
+public class SQLi_concat_notvalidated_wildcard extends HttpServlet {
 	
 	private static final long serialVersionUID = 1L;
 	
@@ -25,36 +26,36 @@ public class SQLi_concat_weakvalidated_ifelse extends HttpServlet {
 
 	@Override
 	public void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// some code
+	
 		response.setContentType("text/html;charset=UTF-8");
-		
+        PrintWriter out = response.getWriter();
+        
+        
 		String param = request.getParameter("param1");
-		
-		// URL Decode the header value since req.getHeader() doesn't. Unlike req.getParameter().
-		param = java.net.URLDecoder.decode(param, "UTF-8");
 
 		// Validate input
-		Pattern validPattern = Pattern.compile(".*");
-		if (validPattern.matcher( param ).matches())  {
-
-			try {
-			
-				Class.forName("com.mysql.jdbc.Driver");  
-				Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/sonoo","root","root");  
-						
-				String sql = "select * from emp where column1 = " + param;
-				PreparedStatement pstmt = connection.prepareStatement( sql );
-           
-				ResultSet rs = pstmt.executeQuery(sql);  
-            
-				while(rs.next()) {
-					System.out.println(rs.getInt(1)+"  "+rs.getString(2)+"  "+rs.getString(3));
-				}
-				connection.close();  
-			} 
-			catch(Exception e){ 
-				System.out.println(e);
-			}
+		Pattern validPattern = Pattern.compile("^.*$");
+		if (!validPattern.matcher( param ).matches())  {
+			throw new ServletException( "Failed validation rules.");
 		}
+		
+		try {
+			
+			Class.forName("com.mysql.jdbc.Driver");  
+			Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/sonoo","root","password01");  
+						
+			String sql = "select * from emp where column1 = " + param;
+			PreparedStatement pstmt = connection.prepareStatement( sql );
+           
+            ResultSet rs = pstmt.executeQuery(sql);  
+            
+            while(rs.next()) {
+            	out.println(rs.getInt(1)+"  "+rs.getString(2)+"  "+rs.getString(3));
+            }
+            connection.close();  
+        } 
+		catch(Exception e){ 
+			System.out.println(e);
+		}  		
 	}
 }
